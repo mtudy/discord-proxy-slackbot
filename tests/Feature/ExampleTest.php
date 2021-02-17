@@ -2,7 +2,8 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Http\Controllers\ListenBotManController;
+use Illuminate\Notifications\AnonymousNotifiable;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
@@ -14,6 +15,16 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
+        $this->app->when(ListenBotManController::class)
+            ->needs(AnonymousNotifiable::class)
+            ->give(function () {
+                $mock = $this->createMock(AnonymousNotifiable::class);
+                $mock->expects($this->once())
+                    ->method('notify');
+
+                return $mock;
+            });
+
         $response = $this->postJson('/', json_decode('{
     "token": "one-long-verification-token",
     "team_id": "T061EG9R6",
@@ -35,6 +46,6 @@ class ExampleTest extends TestCase
     "event_time": 1355517523
 }', true));
 
-        $response->assertStatus(200);
+        $response->assertNoContent();
     }
 }

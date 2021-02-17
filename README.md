@@ -1,4 +1,5 @@
-# Slackbot proxy for Discord
+# Discord Proxy Slackbot
+
 Slackbot proxy for Discord.
 
 !! Supported only Zeppelin message format.

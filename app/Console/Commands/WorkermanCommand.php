@@ -9,7 +9,6 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Workerman\Connection\TcpConnection;
-use Workerman\Protocols\Http;
 use Workerman\Protocols\Http\Request as TcpRequest;
 use Workerman\Worker;
 

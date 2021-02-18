@@ -9,6 +9,10 @@
     "license": "MIT",
     "repositories": [
         {
+            "url": "https://github.com/cr-lgl/botman.git",
+            "type":"git"
+        },
+        {
             "url": "https://github.com/cr-lgl/slack-client.git",
             "type": "git"
         },

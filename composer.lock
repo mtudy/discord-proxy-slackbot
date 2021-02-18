@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59d92c8b42a560973f419ec8b1e89b80",
+    "content-hash": "4d45078750c58da358ebd5e2aca47c7b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -64,17 +64,11 @@
         },
         {
             "name": "botman/botman",
-            "version": "2.6.1",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/botman/botman.git",
-                "reference": "127f7dc0aef5bc0561f8a2a8a3b246fe951b63e7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/botman/botman/zipball/127f7dc0aef5bc0561f8a2a8a3b246fe951b63e7",
-                "reference": "127f7dc0aef5bc0561f8a2a8a3b246fe951b63e7",
-                "shasum": ""
+                "url": "https://github.com/cr-lgl/botman.git",
+                "reference": "8338d155b2ac2946cfd31444b36b1e37c106d911"
             },
             "require": {
                 "mpociot/pipeline": "^1.0.2",
@@ -118,7 +112,16 @@
                     "BotMan\\BotMan\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "BotMan\\BotMan\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -131,15 +134,11 @@
             "description": "Create messaging bots in PHP with ease.",
             "homepage": "http://github.com/botman/botman",
             "keywords": [
-                "Botman",
-                "bot",
-                "chatbot"
+                "Bot",
+                "BotMan",
+                "Chatbot"
             ],
-            "support": {
-                "issues": "https://github.com/botman/botman/issues",
-                "source": "https://github.com/botman/botman/tree/2.6.1"
-            },
-            "time": "2020-09-10T04:44:03+00:00"
+            "time": "2021-02-18T16:17:54+00:00"
         },
         {
             "name": "botman/driver-slack",

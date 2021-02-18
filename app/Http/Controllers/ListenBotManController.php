@@ -33,9 +33,15 @@ class ListenBotManController extends Controller
         $this->botMan->hears(
             '{message}',
             function (BotMan $botMan) {
-                [ , $message] = func_get_args();
+                $message = $botMan->getMessage()->getPayload();
 
-                $this->anonymousNotifiable->notify(new DiscordNotification($message));
+                if (empty($message)) {
+                    return;
+                }
+
+                $this->anonymousNotifiable->notify(
+                    new DiscordNotification($message)
+                );
             }
         );
 

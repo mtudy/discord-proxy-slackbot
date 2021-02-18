@@ -39,8 +39,10 @@ class WorkermanCommand extends Command
 
     private function startBusinessWorker(): void
     {
-        $worker = new Worker('http://0.0.0.0:8000');
-        $worker->count = 4;
+        $worker = new Worker(
+            'http://' . config('workerman.host') . ':' . config('workerman.port')
+        );
+        $worker->count = config('workerman.worker_count');
         $worker->onMessage = function (TcpConnection $connection, TcpRequest $data) {
             $kernel = resolve(Kernel::class);
             $response = $kernel->handle(

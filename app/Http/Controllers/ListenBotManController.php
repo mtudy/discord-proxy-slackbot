@@ -6,20 +6,35 @@ namespace App\Http\Controllers;
 
 use App\Notifications\DiscordNotification;
 use BotMan\BotMan\BotMan;
+use BotMan\BotMan\BotManFactory;
+use BotMan\BotMan\Cache\LaravelCache;
+use BotMan\BotMan\Container\LaravelContainer;
+use BotMan\BotMan\Storages\Drivers\FileStorage;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Symfony\Component\HttpFoundation\Response;
 
 class ListenBotManController extends Controller
 {
-    private BotMan $botMan;
+    private FileStorage $fileStorage;
+
+    private LaravelContainer $laravelContainer;
 
     private AnonymousNotifiable $anonymousNotifiable;
 
-    public function __construct(BotMan $botMan, AnonymousNotifiable $anonymousNotifiable)
-    {
-        $this->botMan = $botMan;
+    private Repository $config;
+
+    public function __construct(
+        FileStorage $fileStorage,
+        LaravelContainer $laravelContainer,
+        AnonymousNotifiable $anonymousNotifiable,
+        Repository $config
+    ) {
+        $this->fileStorage = $fileStorage;
+        $this->laravelContainer = $laravelContainer;
         $this->anonymousNotifiable = $anonymousNotifiable;
+        $this->config = $config;
     }
 
     public function __invoke(Request $request): Response
@@ -30,9 +45,18 @@ class ListenBotManController extends Controller
             return response()->json(compact('challenge'));
         }
 
-        $this->botMan->hears(
+        $botMan = BotManFactory::create(
+            $this->config->get('botman', []),
+            new LaravelCache(),
+            $request,
+            $this->fileStorage
+        );
+
+        $botMan->setContainer($this->laravelContainer);
+
+        $botMan->hears(
             '{message}',
-            function (BotMan $botMan) {
+            function (BotMan $botMan) use ($request) {
                 $message = $botMan->getMessage()->getPayload();
 
                 if (empty($message)) {
@@ -45,7 +69,7 @@ class ListenBotManController extends Controller
             }
         );
 
-        $this->botMan->listen();
+        $botMan->listen();
 
         return response()->noContent();
     }
